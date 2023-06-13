@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from pymongo import MongoClient
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 
 app = FastAPI()
 
@@ -46,19 +47,46 @@ def signin(user: User):
 def retrieve_data():
     # Retrieve data from MongoDB
     db = client["secruity_check"]
-    rules = []
     data = db["firewall_rule"].find()
-    print(data[0])
+    result = []
+    for item in data:
+        item["_id"] = str(item["_id"])
+        result.append(item)
+    return JSONResponse(content=result)
 
-    return [{'_id': """ObjectId('648876eee04ee4586bf3af8a')""", 'Rule Name': 'Microsoft Edge (mDNS-In)', 'Enabled': 'Yes', 'Direction': 'In', 'Profiles': 'Domain,Private,Public', 'Grouping': 'Microsoft Edge WebView2 Runtime', 'LocalIP': 'Any', 'RemoteIP': 'Any', 'Protocol': 'UDP', 'LocalPort': '5353', 'RemotePort': 'Any', 'Edge traversal': 'No', 'Action': 'Allow'},{'_id': """ObjectId('648876eee04ee4586bf3af8a')""", 'Rule Name': 'Microsoft Edge (mDNS-In)', 'Enabled': 'Yes', 'Direction': 'In', 'Profiles': 'Domain,Private,Public', 'Grouping': 'Microsoft Edge WebView2 Runtime', 'LocalIP': 'Any', 'RemoteIP': 'Any', 'Protocol': 'UDP', 'LocalPort': '5353', 'RemotePort': 'Any', 'Edge traversal': 'No', 'Action': 'Allow'},{'_id': """ObjectId('648876eee04ee4586bf3af8a')""", 'Rule Name': 'Microsoft Edge (mDNS-In)', 'Enabled': 'Yes', 'Direction': 'In', 'Profiles': 'Domain,Private,Public', 'Grouping': 'Microsoft Edge WebView2 Runtime', 'LocalIP': 'Any', 'RemoteIP': 'Any', 'Protocol': 'UDP', 'LocalPort': '5353', 'RemotePort': 'Any', 'Edge traversal': 'No', 'Action': 'Allow'},{'_id': """ObjectId('648876eee04ee4586bf3af8a')""", 'Rule Name': 'Microsoft Edge (mDNS-In)', 'Enabled': 'Yes', 'Direction': 'In', 'Profiles': 'Domain,Private,Public', 'Grouping': 'Microsoft Edge WebView2 Runtime', 'LocalIP': 'Any', 'RemoteIP': 'Any', 'Protocol': 'UDP', 'LocalPort': '5353', 'RemotePort': 'Any', 'Edge traversal': 'No', 'Action': 'Allow'},{'_id': """ObjectId('648876eee04ee4586bf3af8a')""", 'Rule Name': 'Microsoft Edge (mDNS-In)', 'Enabled': 'Yes', 'Direction': 'In', 'Profiles': 'Domain,Private,Public', 'Grouping': 'Microsoft Edge WebView2 Runtime', 'LocalIP': 'Any', 'RemoteIP': 'Any', 'Protocol': 'UDP', 'LocalPort': '5353', 'RemotePort': 'Any', 'Edge traversal': 'No', 'Action': 'Allow'},{'_id': """ObjectId('648876eee04ee4586bf3af8a')""", 'Rule Name': 'Microsoft Edge (mDNS-In)', 'Enabled': 'Yes', 'Direction': 'In', 'Profiles': 'Domain,Private,Public', 'Grouping': 'Microsoft Edge WebView2 Runtime', 'LocalIP': 'Any', 'RemoteIP': 'Any', 'Protocol': 'UDP', 'LocalPort': '5353', 'RemotePort': 'Any', 'Edge traversal': 'No', 'Action': 'Allow'},{'_id': """ObjectId('648876eee04ee4586bf3af8a')""", 'Rule Name': 'Microsoft Edge (mDNS-In)', 'Enabled': 'Yes', 'Direction': 'In', 'Profiles': 'Domain,Private,Public', 'Grouping': 'Microsoft Edge WebView2 Runtime', 'LocalIP': 'Any', 'RemoteIP': 'Any', 'Protocol': 'UDP', 'LocalPort': '5353', 'RemotePort': 'Any', 'Edge traversal': 'No', 'Action': 'Allow'},{'_id': """ObjectId('648876eee04ee4586bf3af8a')""", 'Rule Name': 'Microsoft Edge (mDNS-In)', 'Enabled': 'Yes', 'Direction': 'In', 'Profiles': 'Domain,Private,Public', 'Grouping': 'Microsoft Edge WebView2 Runtime', 'LocalIP': 'Any', 'RemoteIP': 'Any', 'Protocol': 'UDP', 'LocalPort': '5353', 'RemotePort': 'Any', 'Edge traversal': 'No', 'Action': 'Allow'},{'_id': """ObjectId('648876eee04ee4586bf3af8a')""", 'Rule Name': 'Microsoft Edge (mDNS-In)', 'Enabled': 'Yes', 'Direction': 'In', 'Profiles': 'Domain,Private,Public', 'Grouping': 'Microsoft Edge WebView2 Runtime', 'LocalIP': 'Any', 'RemoteIP': 'Any', 'Protocol': 'UDP', 'LocalPort': '5353', 'RemotePort': 'Any', 'Edge traversal': 'No', 'Action': 'Allow'},{'_id': """ObjectId('648876eee04ee4586bf3af8a')""", 'Rule Name': 'Microsoft Edge (mDNS-In)', 'Enabled': 'Yes', 'Direction': 'In', 'Profiles': 'Domain,Private,Public', 'Grouping': 'Microsoft Edge WebView2 Runtime', 'LocalIP': 'Any', 'RemoteIP': 'Any', 'Protocol': 'UDP', 'LocalPort': '5353', 'RemotePort': 'Any', 'Edge traversal': 'No', 'Action': 'Allow'},{'_id': """ObjectId('648876eee04ee4586bf3af8a')""", 'Rule Name': 'Microsoft Edge (mDNS-In)', 'Enabled': 'Yes', 'Direction': 'In', 'Profiles': 'Domain,Private,Public', 'Grouping': 'Microsoft Edge WebView2 Runtime', 'LocalIP': 'Any', 'RemoteIP': 'Any', 'Protocol': 'UDP', 'LocalPort': '5353', 'RemotePort': 'Any', 'Edge traversal': 'No', 'Action': 'Allow'},{'_id': """ObjectId('648876eee04ee4586bf3af8a')""", 'Rule Name': 'Microsoft Edge (mDNS-In)', 'Enabled': 'Yes', 'Direction': 'In', 'Profiles': 'Domain,Private,Public', 'Grouping': 'Microsoft Edge WebView2 Runtime', 'LocalIP': 'Any', 'RemoteIP': 'Any', 'Protocol': 'UDP', 'LocalPort': '5353', 'RemotePort': 'Any', 'Edge traversal': 'No', 'Action': 'Allow'}]
+@app.get("/open_ports")
+def retrieve_data():
+    # Retrieve data from MongoDB
+    db = client["open_ports"]
+    data = db["storez"].find()
+    result = []
+    for item in data:
+        item["_id"] = str(item["_id"])
+        result.append(item)
+    return JSONResponse(content=result)
 
-        
-    
-    # data = users_collection.find()
-    # results = []
-    # for item in data:
-    #     results.append(item)
-    # return {"data": results}
+@app.get("/scan_folder")
+def retrieve_data():
+    # Retrieve data from MongoDB
+    db = client["scan_folder"]
+    data = db["sus_folder"].find()
+    result = []
+    for item in data:
+        item["_id"] = str(item["_id"])
+        result.append(item)
+    return JSONResponse(content=result)
+
+@app.get("/firewall_rule")
+def retrieve_data():
+    # Retrieve data from MongoDB
+    db = client["secruity_check"]
+    data = db["firewall_rule"].find()
+    result = []
+    for item in data:
+        item["_id"] = str(item["_id"])
+        result.append(item)
+    return JSONResponse(content=result)
+
 
 
 origins = ["*"]
