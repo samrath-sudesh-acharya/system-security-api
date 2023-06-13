@@ -68,5 +68,5 @@ app = CORSMiddleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
-    allow_methods=["GET", "POST", "PUT", "DELETE"],
+    allow_origins=["*"]
 )
