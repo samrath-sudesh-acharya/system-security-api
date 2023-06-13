@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from pymongo import MongoClient
 from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
@@ -59,3 +60,12 @@ def retrieve_data():
     # return {"data": results}
 
 
+origins = ["*"]
+
+app = CORSMiddleware(
+    app=app,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
