@@ -76,11 +76,22 @@ def retrieve_data():
         result.append(item)
     return JSONResponse(content=result)
 
-@app.get("/firewall_rule")
+@app.get("/attack_details")
 def retrieve_data():
     # Retrieve data from MongoDB
-    db = client["secruity_check"]
-    data = db["firewall_rule"].find()
+    db = client["mitm"]
+    data = db["attack_details"].find()
+    result = []
+    for item in data:
+        item["_id"] = str(item["_id"])
+        result.append(item)
+    return JSONResponse(content=result)
+
+@app.get("/arp_table")
+def retrieve_data():
+    # Retrieve data from MongoDB
+    db = client["mitm"]
+    data = db["arp_table"].find()
     result = []
     for item in data:
         item["_id"] = str(item["_id"])
